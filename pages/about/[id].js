@@ -1,23 +1,28 @@
-// pages/aboutus/[id].js
+// pages/about/[id].js
 
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+// import { details } from './data'; // Import the hardcoded developer details
 
-// Hardcoded developer details
+
 const details = [
   { id: 1, name: 'Yash', role: 'Senior Developer' },
   { id: 2, name: 'Vaibhav', role: 'Backend Developer' },
   { id: 3, name: 'Suresh', role: 'Frontend Developer' },
 ];
-
 function AboutDeveloper() {
   const router = useRouter();
   const { id } = router.query;
-  console.log('router.query:', router.query);
+  const [developer, setDeveloper] = useState(null);
 
-  // Check if id is available and a number
-  const developerId = parseInt(id);
-  const developer = details.find(dev => dev.id === developerId);
-  console.log('developer:', developer);
+  useEffect(() => {
+    // Check if router.query is not empty and id is a number
+    if (router.query && router.query.id) {
+      const developerId = parseInt(router.query.id);
+      const foundDeveloper = details.find(dev => dev.id === developerId);
+      setDeveloper(foundDeveloper);
+    }
+  }, [router.query]);
 
   return (
     <div>
